@@ -1,0 +1,95 @@
+
+products = []
+next_id = 1
+
+
+def add_product(name, price, quantity):
+    global next_id
+
+    if not name.strip():
+        print("Ошибка: название не может быть пустым.")
+        return
+
+    if price < 0 or quantity < 0:
+        print("Ошибка: цена и количество не могут быть отрицательными.")
+        return
+
+    product = {
+        "id": next_id,
+        "name": name,
+        "price": price,
+        "quantity": quantity
+    }
+
+    products.append(product)
+    next_id += 1
+    print("Товар успешно добавлен!")
+
+
+def show_products():
+    if not products:
+        print("Список товаров пуст.")
+        return
+
+    print("\n--- СПИСОК ТОВАРОВ ---")
+
+    for product in products:
+        print(
+            f"ID: {product['id']} | "
+            f"Название: {product['name']} | "
+            f"Цена: {product['price']} | "
+            f"Количество: {product['quantity']}"
+        )
+
+
+def delete_product(product_id):
+    for product in products:
+        if product["id"] == product_id:
+            products.remove(product)
+            print("Товар успешно удалён!")
+            return True
+
+    print("Ошибка: товар не найден.")
+    return False
+
+
+def main():
+    while True:
+        print("\n=== УЧЁТ ТОВАРОВ ===")
+        print("1. Добавить товар")
+        print("2. Показать товары")
+        print("3. Удалить товар")
+        print("4. Выход")
+
+        choice = input("Выберите действие: ")
+
+        if choice == "1":
+            name = input("Название товара: ")
+
+            try:
+                price = float(input("Цена: "))
+                quantity = int(input("Количество: "))
+                add_product(name, price, quantity)
+            except ValueError:
+                print("Ошибка: введите правильные числа.")
+
+        elif choice == "2":
+            show_products()
+
+        elif choice == "3":
+            try:
+                product_id = int(input("Введите ID товара: "))
+                delete_product(product_id)
+            except ValueError:
+                print("ID должен быть числом.")
+
+        elif choice == "4":
+            print("Программа завершена.")
+            break
+
+        else:
+            print("Неверный выбор.")
+
+
+if __name__ == "__main__":
+    main()
